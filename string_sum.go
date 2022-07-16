@@ -2,6 +2,7 @@ package string_sum
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
 	"strconv"
 )
@@ -58,6 +59,6 @@ func StringSum(input string) (output string, err error) {
 
 	}
 
-	return string(res), nil
+	return fmt.Sprintf("%d", res), nil
 
 }
