@@ -26,37 +26,33 @@ var (
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
 func StringSum(input string) (output string, err error) {
+	res := 0
 	if len(input) == 0 {
 		return "", errorEmptyInput
-	}
+	} else if len(input) > 0 {
+		identifierRegexp := regexp.MustCompile("[+*/%-]")
+		identifier := identifierRegexp.FindAllString(input, -1)[0]
 
-	identifierRegexp := regexp.MustCompile("[+*/%-]")
-	identifier := identifierRegexp.FindAllString(input, -1)[0]
+		numberRegexp := regexp.MustCompile("[0-9.]")
+		nums := numberRegexp.FindAllString(input, -1)
 
-	numberRegexp := regexp.MustCompile("[0-9.]")
-	nums := numberRegexp.FindAllString(input, -1)
+		numOne, _ := strconv.Atoi(nums[0])
+		numTwo, _ := strconv.Atoi(nums[1])
 
-	if len(nums) < 2 {
+		switch identifier {
+		case "+":
+			res = numOne + numTwo
+		case "*":
+			res = numOne * numTwo
+		case "/":
+			res = numOne / numTwo
+		case "-":
+			res = numOne - numTwo
+		case "%":
+			res = numOne % numTwo
+		}
+	} else {
 		return "", errorNotTwoOperands
-	}
-
-	res := 0
-
-	numOne, _ := strconv.Atoi(nums[0])
-	numTwo, _ := strconv.Atoi(nums[1])
-
-	switch identifier {
-	case "+":
-		res = numOne + numTwo
-	case "*":
-		res = numOne * numTwo
-	case "/":
-		res = numOne / numTwo
-	case "-":
-		res = numOne - numTwo
-	case "%":
-		res = numOne % numTwo
-
 	}
 
 	return fmt.Sprintf("%d", res), nil
