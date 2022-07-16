@@ -2,6 +2,8 @@ package string_sum
 
 import (
 	"errors"
+	"regexp"
+	"strconv"
 )
 
 //use these errors as appropriate, wrapping them with fmt.Errorf function
@@ -23,5 +25,68 @@ var (
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
 func StringSum(input string) (output string, err error) {
-	return "", nil
+	if len(input) == 0 {
+		return "", errorEmptyInput
+	}
+
+	identifierRegexp := regexp.MustCompile("[+*/%-]")
+	identifier := identifierRegexp.FindAllString(input, -1)[0]
+
+	numberRegexp := regexp.MustCompile("[0-9.]")
+	nums := numberRegexp.FindAllString(input, -1)
+
+	if len(nums) < 2 {
+		return "", errorNotTwoOperands
+	}
+
+	res := 0
+
+	numOne, _ := strconv.Atoi(nums[0])
+	numTwo, _ := strconv.Atoi(nums[1])
+
+	switch identifier {
+	case "+":
+		res = numOne + numTwo
+	case "*":
+		res = numOne * numTwo
+	case "/":
+		res = numOne / numTwo
+	case "-":
+		res = numOne - numTwo
+	case "%":
+		res = numOne % numTwo
+
+	}
+
+	return string(res), nil
+
+}
+
+func StringSum2(input string) (output int, err error) {
+	identifierRegexp := regexp.MustCompile("[+*/%-]")
+	identifier := identifierRegexp.FindAllString(input, -1)[0]
+
+	numberRegexp := regexp.MustCompile("[0-9.]")
+	nums := numberRegexp.FindAllString(input, -1)
+
+	res := 0
+
+	numOne, _ := strconv.Atoi(nums[0])
+	numTwo, _ := strconv.Atoi(nums[1])
+
+	switch identifier {
+	case "+":
+		res = numOne + numTwo
+	case "*":
+		res = numOne * numTwo
+	case "/":
+		res = numOne / numTwo
+	case "-":
+		res = numOne - numTwo
+	case "%":
+		res = numOne % numTwo
+
+	}
+
+	return res, nil
 }
