@@ -61,32 +61,3 @@ func StringSum(input string) (output string, err error) {
 	return string(res), nil
 
 }
-
-func StringSum2(input string) (output int, err error) {
-	identifierRegexp := regexp.MustCompile("[+*/%-]")
-	identifier := identifierRegexp.FindAllString(input, -1)[0]
-
-	numberRegexp := regexp.MustCompile("[0-9.]")
-	nums := numberRegexp.FindAllString(input, -1)
-
-	res := 0
-
-	numOne, _ := strconv.Atoi(nums[0])
-	numTwo, _ := strconv.Atoi(nums[1])
-
-	switch identifier {
-	case "+":
-		res = numOne + numTwo
-	case "*":
-		res = numOne * numTwo
-	case "/":
-		res = numOne / numTwo
-	case "-":
-		res = numOne - numTwo
-	case "%":
-		res = numOne % numTwo
-
-	}
-
-	return res, nil
-}
